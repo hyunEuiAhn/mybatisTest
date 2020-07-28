@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userSQL">
+	<resultMap type="user" id="userResult">
+		<result property="name" column="NAME"/>
+		<result property="id" column="ID"/>
+		<result property="pwd" column="PWD"/>
+	</resultMap>
+  <insert id="write" parameterType="user">
+  	insert into usertable values(#{name},#{id},#{pwd})
+  </insert>
+  
+  <select id="userList" resultType="user">
+  	select * from usertable
+  </select>
+  
+  <update id="modify" parameterType="user">
+  	update usertable set name=#{name}, pwd=#{pwd} where id = #{id}
+  </update>
+  
+  <select id="check" resultMap="userResult">
+  <!-- <select id="check" parameterType="String" resultMap="userResult"> -->
+  	select * from usertable where id = #{id}
+  </select>
+  
+  <delete id="userDelete" parameterType="String">
+  	delete usertable where id = #{id}
+  </delete>
+  
+  <select id="userSearchList" parameterType="java.util.Map" resultType="user">
+  	select * from usertable where ${check} like '%'||#{value}||'%'
+  </select>
+
+</mapper>
